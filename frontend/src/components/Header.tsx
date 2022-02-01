@@ -2,7 +2,7 @@ import { Badge, Button, Heading, HStack, Text } from '@chakra-ui/react'
 import { Link } from 'react-router-dom'
 
 import { useDapp } from '../context/Context'
-import { getNetwork } from '../utils/networks'
+import { getNetwork } from '../eth/networks'
 import truncateAddress from '../utils/truncateAddress'
 import AccountIcon from './AccountIcon'
 

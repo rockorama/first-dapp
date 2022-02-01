@@ -7,7 +7,7 @@ import { ethers } from 'ethers'
 
 import ABI from '../../../artifacts/contracts/{{NAME}}.sol/{{NAME}}.json'
 import { useDapp } from '../../../context/Context'
-import { getNetwork } from '../../../utils/networks'
+import { getNetwork } from '../../networks'
 import { {{NAME}} } from '../../types'
 
 export function get{{NAME}}Contract(network: number, account?: string) {

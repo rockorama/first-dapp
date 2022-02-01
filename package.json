@@ -1,0 +1,39 @@
+{
+  "name": "first-dapp",
+  "version": "1.0.0",
+  "description": "## To launch web3 front-end",
+  "main": "index.js",
+  "scripts": {
+    "compile": "(cd smart-contracts && npm run compile)",
+    "deploy:hardhat": "(wait-on http://127.0.0.1:8545/) && (cd smart-contracts && npm run deploy)",
+    "dev": "concurrently \"npm run start:hardhat\" \"(npm run compile && npm run deploy:hardhat && npm run start:frontend)\"",
+    "start:frontend": "(cd frontend && npm start)",
+    "start:hardhat": "(cd smart-contracts && npm start)",
+    "test": "npm run test --workspaces"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/__.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/__/issues"
+  },
+  "homepage": "https://github.com/__#readme",
+  "workspaces": [
+    "./frontend",
+    "./smart-contracts"
+  ],
+  "devDependencies": {
+    "concurrently": "^7.0.0",
+    "prettier": "^2.5.1",
+    "wait-on": "^6.0.0"
+  },
+  "dependencies": {
+    "@chakra-ui/react": "^1.8.1",
+    "@emotion/react": "^11.7.1",
+    "@emotion/styled": "^11.6.0",
+    "framer-motion": "^5.6.0"
+  }
+}

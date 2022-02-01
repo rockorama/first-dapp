@@ -16,7 +16,7 @@ export async function getAccounts(): Promise<string[]> {
   return window.ethereum.request({ method: 'eth_requestAccounts' })
 }
 
-export function getContract(account?: string) {
+export function getContract(network: number, account?: string) {
   verifyMetamask()
 
   const provider = new ethers.providers.Web3Provider(window.ethereum)

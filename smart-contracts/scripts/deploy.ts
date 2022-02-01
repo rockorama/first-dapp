@@ -21,7 +21,6 @@ async function main() {
   const greeter = await Greeter.deploy('Hello, Hardhat!')
 
   await greeter.deployed()
-  console.log(network)
   console.log('Greeter deployed to:', greeter.address)
   saveContractAddress('Greeter', greeter.address, network.name)
 }

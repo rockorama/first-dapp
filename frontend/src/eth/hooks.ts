@@ -5,6 +5,25 @@ import { formatEther } from 'ethers/lib/utils'
 
 import { getAccounts, getContract, verifyMetamask } from './utils'
 
+export function useNetwork(): number {
+  const [network, setNetwork] = useState<number>(1)
+
+  useEffect(() => {
+    try {
+      verifyMetamask()
+      // detect Network account change
+      window.ethereum.on('networkChanged', function (networkId: number) {
+        setNetwork(networkId)
+
+        // eslint-disable-next-line no-console
+        console.log('networkChanged', networkId)
+      })
+    } catch (e) {}
+  }, [])
+
+  return network
+}
+
 export function useAccount(): [string, () => Promise<void>] {
   const [account, setAccount] = useState<string>('')
 
@@ -24,13 +43,14 @@ export function useAccount(): [string, () => Promise<void>] {
 }
 
 export function useContract(account: string) {
+  const network = useNetwork()
   return useMemo(() => {
     try {
-      return getContract(account)
+      return getContract(network, account)
     } catch (e: any) {
       return null
     }
-  }, [account])
+  }, [account, network])
 }
 
 export function useBotPrice(contract: Contract) {

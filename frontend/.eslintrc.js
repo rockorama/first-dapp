@@ -21,6 +21,6 @@ module.exports = {
         pathGroupsExcludedImportTypes: ['react'],
       },
     ],
-    'no-console': 'error',
+    'no-console': 'warn',
   },
 }

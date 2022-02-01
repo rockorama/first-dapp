@@ -1,14 +1,14 @@
 import { ChakraProvider } from '@chakra-ui/react'
+import { BrowserRouter } from 'react-router-dom'
 
-import ContractProvider from './context/Contract'
-import Router from './Router'
+import Root from './components/Root'
 
 export default function App() {
   return (
-    <ChakraProvider>
-      <ContractProvider>
-        <Router />
-      </ContractProvider>
-    </ChakraProvider>
+    <BrowserRouter>
+      <ChakraProvider>
+        <Root />
+      </ChakraProvider>
+    </BrowserRouter>
   )
 }

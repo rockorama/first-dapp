@@ -1,13 +1,14 @@
 import { Container, Heading, Table, Tbody, Td, Tr } from '@chakra-ui/react'
+import { Link } from 'react-router-dom'
 
 import useGreeter from '../eth/contracts/Greeter'
 
 export default function Index() {
-  const contract = useGreeter()
+  const data = useGreeter()
 
   return (
     <Container maxW="container.xl" paddingY={10}>
-      {!contract ? (
+      {!data ? (
         <Heading>Unsupported network</Heading>
       ) : (
         <>
@@ -16,18 +17,20 @@ export default function Index() {
             <Tbody>
               <Tr>
                 <Td>Name</Td>
-                <Td>{contract.name}</Td>
+                <Td>
+                  <Link to={`/${data.name.toLowerCase()}`}>{data.name}</Link>
+                </Td>
               </Tr>
               <Tr>
                 <Td>Address</Td>
-                <Td>{contract.contract.address}</Td>
+                <Td>{data.contract.address}</Td>
               </Tr>
             </Tbody>
           </Table>
           <Heading my={10}>Methods</Heading>
           <Table variant="striped">
             <Tbody>
-              {contract.abi
+              {data.abi
                 .filter((i) => i.type === 'function')
                 .map((item) => (
                   <Tr key={item.name}>

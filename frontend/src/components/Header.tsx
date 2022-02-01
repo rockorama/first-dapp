@@ -1,4 +1,5 @@
 import { Badge, Button, Heading, HStack, Text } from '@chakra-ui/react'
+import { Link } from 'react-router-dom'
 
 import { useDapp } from '../context/Context'
 import { getNetwork } from '../utils/networks'
@@ -15,7 +16,7 @@ export default function Header() {
       p={4}
       justifyContent="space-between">
       <Heading size="lg" color="white">
-        First Dapp
+        <Link to="/">First Dapp</Link>
       </Heading>
       {ready ? (
         <HStack spacing={4}>

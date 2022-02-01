@@ -21,18 +21,24 @@ import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 
 interface GreeterInterface extends ethers.utils.Interface {
   functions: {
+    "getName()": FunctionFragment;
     "greet()": FunctionFragment;
     "setGreeting(string)": FunctionFragment;
+    "setName(string)": FunctionFragment;
   };
 
+  encodeFunctionData(functionFragment: "getName", values?: undefined): string;
   encodeFunctionData(functionFragment: "greet", values?: undefined): string;
   encodeFunctionData(functionFragment: "setGreeting", values: [string]): string;
+  encodeFunctionData(functionFragment: "setName", values: [string]): string;
 
+  decodeFunctionResult(functionFragment: "getName", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "greet", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "setGreeting",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "setName", data: BytesLike): Result;
 
   events: {};
 }
@@ -81,13 +87,22 @@ export class Greeter extends BaseContract {
   interface: GreeterInterface;
 
   functions: {
+    getName(overrides?: CallOverrides): Promise<[string]>;
+
     greet(overrides?: CallOverrides): Promise<[string]>;
 
     setGreeting(
       _greeting: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
+
+    setName(
+      _name: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
   };
+
+  getName(overrides?: CallOverrides): Promise<string>;
 
   greet(overrides?: CallOverrides): Promise<string>;
 
@@ -96,28 +111,51 @@ export class Greeter extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  setName(
+    _name: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   callStatic: {
+    getName(overrides?: CallOverrides): Promise<string>;
+
     greet(overrides?: CallOverrides): Promise<string>;
 
     setGreeting(_greeting: string, overrides?: CallOverrides): Promise<void>;
+
+    setName(_name: string, overrides?: CallOverrides): Promise<void>;
   };
 
   filters: {};
 
   estimateGas: {
+    getName(overrides?: CallOverrides): Promise<BigNumber>;
+
     greet(overrides?: CallOverrides): Promise<BigNumber>;
 
     setGreeting(
       _greeting: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
+
+    setName(
+      _name: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
   };
 
   populateTransaction: {
+    getName(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     greet(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     setGreeting(
       _greeting: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setName(
+      _name: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
   };

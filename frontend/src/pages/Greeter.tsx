@@ -10,6 +10,7 @@ export default function Greeter() {
   const toast = useToast()
   const data = useGreeter()
   const [greeting, setGreeting] = useState('')
+  const [name, setName] = useState('')
 
   const getGreeting = async () => {
     try {
@@ -26,8 +27,24 @@ export default function Greeter() {
     }
   }
 
+  const getName = async () => {
+    try {
+      const _greeting = await data?.contract.getName()
+      setName(_greeting || '')
+    } catch (e: any) {
+      toast({
+        title: 'Oops! Something went wrong',
+        description: e.message,
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      })
+    }
+  }
+
   useEffect(() => {
     getGreeting()
+    getName()
   }, [data])
 
   return (
@@ -37,8 +54,9 @@ export default function Greeter() {
       ) : (
         <Box>
           <Heading mb={10}>Greeter Dapp</Heading>
+
           <Box my={10}>
-            <Heading size="md">{greeting}</Heading>
+            <Heading size="md">Greeting: {greeting}</Heading>
           </Box>
 
           <Box my={10}>
@@ -72,6 +90,45 @@ export default function Greeter() {
                 payload.onFinish(true)
               }}>
               <TextField required name="greeting" label="New greeting" />
+              <SubmitButton>Submit</SubmitButton>
+            </Form>
+          </Box>
+
+          <Box my={10}>
+            <Heading size="md">Name: {name}</Heading>
+          </Box>
+
+          <Box my={10}>
+            <Form<{ name: string }>
+              onSubmit={async (payload) => {
+                if (payload.valid) {
+                  try {
+                    const transaction = await data.contract.setName(
+                      payload.values.name,
+                    )
+                    await transaction.wait()
+                    await getName()
+                    toast({
+                      title: 'Name updated successfully',
+                      description:
+                        'Your new name was recorded on the blockchain!',
+                      status: 'success',
+                      duration: 9000,
+                      isClosable: true,
+                    })
+                  } catch (e: any) {
+                    toast({
+                      title: 'Oops! Something went wrong',
+                      description: e.message,
+                      status: 'error',
+                      duration: 9000,
+                      isClosable: true,
+                    })
+                  }
+                }
+                payload.onFinish(true)
+              }}>
+              <TextField required name="name" label="New Name" />
               <SubmitButton>Submit</SubmitButton>
             </Form>
           </Box>

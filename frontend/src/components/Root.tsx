@@ -53,6 +53,7 @@ export default function Root() {
     if (MetaMaskOnboarding.isMetaMaskInstalled()) {
       const handleNewAccounts = (newAccounts: string[]) => {
         setAccounts(newAccounts)
+        setNetwork(window?.ethereum?.networkVersion)
       }
       window.ethereum
         .request({ method: 'eth_requestAccounts' })
@@ -69,21 +70,24 @@ export default function Root() {
     if (MetaMaskOnboarding.isMetaMaskInstalled()) {
       window.ethereum
         .request({ method: 'eth_requestAccounts' })
-        .then((newAccounts: string[]) => setAccounts(newAccounts))
+        .then((newAccounts: string[]) => {
+          setAccounts(newAccounts)
+          setNetwork(window?.ethereum?.networkVersion)
+        })
     } else {
       onboarding.current?.startOnboarding()
     }
   }
   const account = accounts[0]
-  const ready = MetaMaskOnboarding.isMetaMaskInstalled() && !!network
+  const ready = MetaMaskOnboarding.isMetaMaskInstalled() || !account
 
   return (
     <DappContext.Provider
       value={{
         account,
-        connect,
         ready,
         network,
+        connect,
       }}>
       <Layout>
         {MetaMaskOnboarding.isMetaMaskInstalled() ? (

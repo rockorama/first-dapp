@@ -6,7 +6,7 @@
 import { ethers, network } from 'hardhat'
 // TODO: Figure out how to fix the line below
 // eslint-disable-next-line node/no-missing-import
-import saveContractAddress from './utils/saveContractAddress'
+import saveContract from './utils/saveContract'
 
 async function main() {
   // Hardhat always runs the compile task when running scripts with its command
@@ -22,7 +22,7 @@ async function main() {
 
   await greeter.deployed()
   console.log('Greeter deployed to:', greeter.address)
-  saveContractAddress('Greeter', greeter.address, network.name)
+  saveContract('Greeter', greeter.address, network.name)
 }
 
 // We recommend this pattern to be able to use async/await everywhere

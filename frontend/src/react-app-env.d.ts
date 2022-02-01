@@ -4,4 +4,4 @@ interface Window {
   ethereum: any
 }
 
-declare module 'react-jazzicon'
+declare module '@metamask/jazzicon'

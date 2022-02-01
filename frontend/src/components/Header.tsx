@@ -1,37 +1,43 @@
-import { Box, Button, Heading, HStack, Text } from '@chakra-ui/react'
-import Jazzicon, { jsNumberForAddress } from 'react-jazzicon'
+import { Badge, Button, Heading, HStack, Text } from '@chakra-ui/react'
 
 import { useDapp } from '../context/Context'
+import { getNetwork } from '../utils/networks'
 import truncateAddress from '../utils/truncateAddress'
-
-function Icon({ account }: { account: string }) {
-  return (
-    <Box>
-      <Jazzicon diameter={40} seed={jsNumberForAddress(account)} />
-    </Box>
-  )
-}
+import AccountIcon from './AccountIcon'
 
 export default function Header() {
-  const { ready, account, connect } = useDapp()
+  const { ready, account, network, connect } = useDapp()
+
   return (
     <HStack
       width="full"
       backgroundColor="blue.600"
       p={4}
       justifyContent="space-between">
-      <Heading color="white">First Dapp</Heading>
+      <Heading size="lg" color="white">
+        First Dapp
+      </Heading>
       {ready ? (
-        account ? (
-          <HStack spacing={4}>
-            <Text color="white">{truncateAddress(account)}</Text>
-            <Icon account={account} />
-          </HStack>
-        ) : (
-          <Button colorScheme="gray" onClick={connect}>
-            Connect
-          </Button>
-        )
+        <HStack spacing={4}>
+          {network && (
+            <Badge color="blue.600">
+              {getNetwork(network)?.name || network}
+            </Badge>
+          )}
+
+          {account ? (
+            <HStack spacing={4}>
+              <Text fontSize="sm" color="white">
+                {truncateAddress(account)}
+              </Text>
+              <AccountIcon account={account} />
+            </HStack>
+          ) : (
+            <Button colorScheme="gray" onClick={connect}>
+              Connect
+            </Button>
+          )}
+        </HStack>
       ) : null}
     </HStack>
   )
